@@ -1,0 +1,11 @@
+- name: Install mozc
+  pacman:
+    name: "{{ lang_packages }}"
+    state: present
+
+- name: Copy xprofile
+  copy:
+    src: files/xprofile
+    dest: "/home/{{ user.name }}/.xprofile"
+    owner: "{{ user.name }}"
+    group: "{{ user.group }}"

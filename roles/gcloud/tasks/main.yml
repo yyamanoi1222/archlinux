@@ -1,0 +1,57 @@
+---
+- name: Already Exist gcloud
+  stat:
+    path: /home/{{ user.name }}/google-cloud-sdk
+  register: installed_gcloud
+
+- name: Insure temp path exists
+  file:
+    path: "{{ gcloud.tmp_path }}"
+    state: directory
+  when: not installed_gcloud.stat.exists
+
+- name: Download the archive
+  get_url:
+    url: "{{ gcloud.archive_url }}/{{ gcloud.archive_name }}"
+    dest: "{{ gcloud.tmp_path }}/{{ gcloud.archive_name }}"
+  when: not installed_gcloud.stat.exists
+
+- name: Remove existing google-cloud-sdk dir, it if exists
+  file:
+    path: "/home/{{ user.name }}/google-cloud-sdk"
+    state: absent
+  when: not installed_gcloud.stat.exists
+
+- set_fact:
+    archive_path: "{{ gcloud.tmp_path + '/' +  gcloud.archive_name }}"
+  when: not installed_gcloud.stat.exists
+
+- name: Unarchive
+  shell: cd "/home/{{ user.name }}" && tar xvzf "{{ archive_path }}"
+  when: not installed_gcloud.stat.exists
+
+- name: Build run script
+  template:
+    src: templates/run.j2
+    dest: "{{ gcloud.tmp_path }}/run_install.sh"
+    mode: 0755
+  tags:
+    - copy
+    - download
+  when: not installed_gcloud.stat.exists
+
+- name: Install
+  command: "{{ gcloud.tmp_path }}/run_install.sh"
+  when: not installed_gcloud.stat.exists
+
+- name: Remove the archive
+  file:
+    path: "{{ archive_path }}"
+    state: absent
+  when: not installed_gcloud.stat.exists
+
+- name: Remove the script
+  file:
+    path: "{{ gcloud.tmp_path }}/run_install.sh"
+    state: absent
+  when: not installed_gcloud.stat.exists

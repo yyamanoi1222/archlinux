@@ -1,0 +1,12 @@
+---
+- name: Clone dotfiles
+  git:
+    repo: "{{ dotfiles.url }}"
+    dest: "/home/{{ user.name }}/{{ dotfiles.destination }}"
+  become: yes
+  become_user: root
+
+- name: Install dotfiles
+  command: "sh install.sh chdir=/home/{{ user.name}}/{{ dotfiles.destination }}"
+  become: yes
+  become_user: "{{ user.name }}"

@@ -1,0 +1,5 @@
+---
+- name: Install network packags
+  pacman:
+    name: "{{ network_packages }}"
+    state: present

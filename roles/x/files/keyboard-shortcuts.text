@@ -1,0 +1,3 @@
+/commands/custom/<Primary><Alt>b           google-chrome-stable
+/commands/custom/<Primary><Alt>s           slack
+/commands/custom/<Primary><Alt>p           /var/lib/snapd/snap/bin/spotify

@@ -1,0 +1,112 @@
+user:
+  name: yamanoi
+  uid: 1001
+  group: yamanoi
+  shell: /usr/bin/zsh
+
+user_password: root
+
+base_packages:
+  - base-devel
+  - vim
+  - git
+  - tmux
+  - jq
+  - nano
+  - mariadb
+  - unzip
+  - zsh-completions
+  - discord
+  - terraform
+  - mono
+  - wget
+  - lha
+  - xfce4-screenshooter
+  - sysbench
+  - firefox
+  - kicad
+
+docker_packages:
+  - docker
+  - docker-compose
+
+aur:
+  dir: aur
+  packages:
+    - yay
+    - slack-desktop
+    - google-chrome
+    - direnv
+    - visual-studio-code-bin
+    - snapd
+    - downgrade
+
+snap:
+  packages:
+    - spotify
+
+node:
+  dir: .nvm
+  ver: v12.0.0
+
+golang:
+  ver: 1.13.8
+  arch: linux-amd64
+
+go_packages:
+  - github.com/motemen/ghq
+  - github.com/peco/peco/cmd/peco
+  - github.com/github/hub
+  - github.com/rubenv/sql-migrate/...
+  - github.com/swaggo/swag/cmd/swag
+  - github.com/golang/dep/cmd/dep
+  - github.com/cweill/gotests/...
+  - github.com/rakyll/statik
+
+passwordless_sudo:
+  - /usr/bin/openvpn*
+
+network_packages:
+  - networkmanager
+  - network-manager-applet
+  - xfce4-notifyd
+  - gnome-keyring
+
+dotfiles:
+  url: https://github.com/yyamanoi1222/dotfiles.git
+  destination: dotfiles
+
+theme:
+  url: https://github.com/jnsh/arc-theme
+  dest: arch
+  dir: .themes
+  packages:
+    - sassc
+    - inkscape
+  command: autogen.sh --prefix=/usr --disable-cinnamon --disable-gnome-shell & make install
+
+icon:
+  url: https://github.com/horst3180/arc-icon-theme
+  dest: arch
+  dir: .icons
+  command: autogen.sh --prefix=/usr & make install
+
+fonts:
+  - noto-fonts
+  - noto-fonts-cjk
+  - noto-fonts-emoji
+
+lang_packages:
+  - fcitx
+  - fcitx-mozc
+  - fcitx-configtool
+
+graphic_drivers:
+  - xf86-video-intel
+  - libva-intel-driver
+  - xorg-xbacklight
+
+gcloud:
+  tmp_path: /tmp/install_gcloud
+  archive_name: google-cloud-sdk-293.0.0-linux-x86_64.tar.gz
+  archive_url: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads

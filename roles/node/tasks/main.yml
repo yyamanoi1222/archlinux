@@ -1,0 +1,17 @@
+- name: Alredy Exist node
+  stat:
+    path: /home/{{ user.name }}/{{ node.dir }}
+  register: installed_nvm
+
+- name: Clone nvm
+  git:
+    repo: https://github.com/nvm-sh/nvm.git
+    dest: "/home/{{ user.name }}/{{ node.dir }}"
+  become: yes
+  become_user: "{{ user.name }}"
+  when: not installed_nvm.stat.exists
+
+- name: Install node
+  shell: "source /home/{{ user.name }}/{{ node.dir }}/nvm.sh && nvm install {{ node.ver }}"
+  become_user: "{{ user.name }}"
+  when: not installed_nvm.stat.exists

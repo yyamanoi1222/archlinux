@@ -1,0 +1,6 @@
+- name: Copy xmodmap
+  copy:
+    src: files/xmodmap
+    dest: "/home/{{ user.name }}/.Xmodmap"
+    owner: "{{ user.name }}"
+    group: "{{ user.group }}"

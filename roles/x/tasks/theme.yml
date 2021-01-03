@@ -1,0 +1,47 @@
+---
+- name: Create theme Directory
+  file: path=/home/{{ user.name }}/{{ theme.dir }}
+        state=directory
+        owner={{ user.name }}
+        group={{ user.group }}
+
+- name: Create icon Directory
+  file: path=/home/{{ user.name }}/{{ icon.dir }}
+        state=directory
+        owner={{ user.name }}
+        group={{ user.group }}
+
+- name: Clone theme
+  git:
+    repo: "{{ theme.url }}"
+    dest: "/home/{{ user.name }}/{{ theme.dir }}/{{ theme.dest }}"
+  become: yes
+  become_user: root
+
+- name: Clone Icon
+  git:
+    repo: "{{ icon.url }}"
+    dest: "/home/{{ user.name }}/{{ icon.dir }}/{{ icon.dest }}"
+  become: yes
+  become_user: root
+
+- name: Install Dependencies
+  pacman:
+    name: "{{ theme.packages }}"
+    state: present
+
+- name: Install wallpaper
+  pacman:
+    name: archlinux-wallpaper
+    state: present
+
+- name: Install theme
+  command: "/home/{{ user.name }}/{{ theme.dir }}/{{ theme.dest }}/{{ theme.command }}"
+  become: yes
+  become_user: root
+
+- name: Install icon
+  command: "/home/{{ user.name }}/{{ icon.dir }}/{{ icon.dest }}/{{ icon.command }}"
+  become: yes
+  become_user: root
+

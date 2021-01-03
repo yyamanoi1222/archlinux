@@ -1,0 +1,34 @@
+- name: Alreadly Install golang
+  stat:
+    path: /home/{{ user.name }}/go
+  register: installed_go
+
+- name: Clone golang
+  get_url: url="https://dl.google.com/go/go{{ golang.ver }}.{{ golang.arch }}.tar.gz" dest=/tmp
+  register: downloaded_go
+  when: not installed_go.stat.exists
+
+- name: Install golang
+  shell: "tar -C /home/{{ user.name }} -xzf /tmp/go{{ golang.ver }}.{{ golang.arch }}.tar.gz"
+  become_user: "{{ user.name }}"
+  when: not installed_go.stat.exists
+
+- name: check go packages
+  command: /home/{{ user.name }}/go/bin/go list {{ item }}
+  register: go_module
+  failed_when: go_module.rc not in [0, 1]
+  changed_when: go_module.rc not in [0, 1]
+  with_items: "{{ go_packages }}"
+  become_user: "{{ user.name }}"
+  become: yes
+  environment:
+    GOPATH: /home/{{ user.name }}/.go
+
+- name: Install go packages
+  command: /home/{{ user.name }}/go/bin/go get {{ item.item }}
+  when: item.rc == 1
+  with_items: "{{ go_module.results }}"
+  become_user: "{{ user.name }}"
+  become: yes
+  environment:
+    GOPATH: /home/{{ user.name }}/.go

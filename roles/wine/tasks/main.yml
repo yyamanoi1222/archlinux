@@ -1,0 +1,15 @@
+---
+- name: Edit pacman.conf
+
+- name: Install wine
+  pacman:
+    name: wine
+    state: present
+
+- name: Install winetricks
+  pacman:
+    name: winetricks
+    state: present
+
+- name: Install font
+  shell: winetricks allfonts

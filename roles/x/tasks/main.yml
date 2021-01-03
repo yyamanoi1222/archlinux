@@ -1,0 +1,48 @@
+---
+- name: Install Xorg
+  pacman:
+    name: xorg-server
+    state: present
+
+- name: Install Xterm
+  pacman:
+    name: xterm
+    state: present
+
+- name: Install Xinit
+  pacman:
+    name: xorg-xinit
+    state: present
+
+- name: Install mesa
+  pacman:
+    name: mesa
+    state: present
+
+- name: Install intel video hardware drivers
+  pacman:
+    state: present
+    name: "{{ graphic_drivers }}"
+
+- name: Install Xorg-apps
+  pacman:
+    name: xorg-apps
+    state: present
+
+- name: Install xfce4
+  pacman:
+    name: xfce4
+    state: present
+
+- name: Install lightdm
+  pacman:
+    name: lightdm-gtk-greeter
+    state: present
+
+- name: Login manager
+  systemd:
+    name: lightdm.service
+    enabled: yes
+
+- include: theme.yml
+#- include: config.yml

@@ -1,0 +1,17 @@
+---
+
+- hosts: localhost
+  become: yes
+  roles:
+    - base
+    - dotfiles
+    - x
+    - network
+    - node
+    - golang
+    - font
+    - lang
+    - keyboard
+    - docker
+    - sound
+    - gcloud

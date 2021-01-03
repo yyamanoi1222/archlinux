@@ -1,0 +1,15 @@
+---
+- name: Install pulseaudio
+  pacman:
+    name: pulseaudio
+    state: present
+
+- name: Install pavucontrol
+  pacman:
+    name: pavucontrol
+    state: present
+
+- name: Install xfce4-pulseaudio-plugin
+  pacman:
+    name: xfce4-pulseaudio-plugin
+    state: present
