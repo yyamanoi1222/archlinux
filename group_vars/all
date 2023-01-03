@@ -25,6 +25,8 @@ base_packages:
   - sysbench
   - firefox
   - kicad
+  - exa
+  - bat
 
 docker_packages:
   - docker
